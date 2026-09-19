@@ -4,14 +4,14 @@ from decimal import Decimal
 from typing import Optional
 
 @dataclass
-class Subject:
+class AssuntoDTO:
     codigo: str
     descricao: str
     principal: bool
 
 
 @dataclass
-class CapaProcesso:
+class CapaProcessoDTO:
     process_number: str
     data_autuacao: datetime
     situacao: str
@@ -21,20 +21,20 @@ class CapaProcesso:
 
 
 @dataclass
-class PartesRepresentantes:
+class PartesRepresentantesDTO:
     titulo: str
-    pessoa: str
+    nome: str
 
 
 @dataclass
-class InformacoesAdicionais:
+class InformacoesAdicionaisDTO:
     valor_causa: Decimal
-    antecipacao_tutela: bool
+    antecipacao_tutela: str
     autor_manifesta_desinteresse_conciliacao: bool
     crianca_adolescente: bool
     justica_gratuita: bool
-    opção_por_juizo_100perc_digital: bool
-    pessoa_com_deficiência: bool
+    opcao_por_juizo_100perc_digital: bool
+    pessoa_com_deficiencia: bool
     peticao_urgente: bool
     processo_digitalizado: bool
     reconvencao: bool
@@ -43,7 +43,7 @@ class InformacoesAdicionais:
 
 
 @dataclass
-class Atualizacao:
+class AtualizacaoDTO:
     ordem_evento: str
     data_hora: datetime
     descricao: str
@@ -52,10 +52,10 @@ class Atualizacao:
     
 
 @dataclass
-class ProcessData:
+class ProcessDataDTO:
     name: str
-    capa_processo: CapaProcesso
-    subjects: list[Subject]
-    partes_e_representantes: list[PartesRepresentantes]
-    info_adicionais: InformacoesAdicionais
-    atualizacoes: list[Atualizacao]
+    capa_processo: CapaProcessoDTO
+    assuntos: list[AssuntoDTO]
+    partes_e_representantes: list[PartesRepresentantesDTO]
+    info_adicionais: InformacoesAdicionaisDTO
+    atualizacoes: list[AtualizacaoDTO]

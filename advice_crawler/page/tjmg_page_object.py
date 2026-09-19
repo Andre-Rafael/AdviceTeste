@@ -9,7 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from models.process_data import ProcessData
+from dto.process_data import ProcessDataDTO
 from extractor.tjmg_data_extractor import TjmgDataExtractor
 from mixin.tribunal_page_mixin import TribunalPageMixin
 from twocaptcha import TwoCaptcha
@@ -22,6 +22,7 @@ class TjmgPageObject(TribunalPageMixin):
 
 
     def navigate(self, url):
+        info("Acessando URL")
         return super().navigate(url)
 
     def search_client(self, client_name: str):
@@ -36,18 +37,20 @@ class TjmgPageObject(TribunalPageMixin):
         result = self.two_captcha.normal(
             img_recaptcha_element.get_attribute('src')
         )
-        self._webdriver.find_element(By.ID, "txtInfraCaptcha").send_keys(result['code'])
+        self._webdriver.find_element(By.ID, "txtInfraCaptcha").send_keys(result['code'].upper())
         self._webdriver.find_element(By.ID, 'sbmNovo').click()
         info(f"Searching for {client_name}")
 
-    def get_result(self, client_name: str) -> Generator[ProcessData, None, None]:
+    def get_result(self, client_name: str) -> Generator[ProcessDataDTO, None, None]:
+        sleep(2)
         result_table = WebDriverWait(self._webdriver, 20).until(
             EC.presence_of_element_located((By.ID, 'divInfraAreaTabela'))
         ).find_element(By.TAG_NAME, 'table')
         content_table: list[WebElement] = result_table.find_elements(By.TAG_NAME, 'tr')[1:]
         links = [line.find_element(By.TAG_NAME, 'td').find_element(By.TAG_NAME, 'a').get_attribute('href') for line in content_table if client_name == line.find_elements(By.TAG_NAME, 'td')[0].text]
+        info(f"{len(links)} resultados encontrado")
         for link in links:
-            self._webdriver.get(link)
+            self.navigate(link)
             lines = self._webdriver.find_element(By.ID, 'divInfraAreaTabela').find_elements(By.TAG_NAME, 'tr')[1:]
             for i in range(1, len(lines) + 1):
                 client_process = self._webdriver.find_element(By.ID, 'divInfraAreaTabela').find_elements(By.TAG_NAME, 'tr')[i]

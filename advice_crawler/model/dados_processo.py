@@ -1,5 +1,6 @@
 from typing import List
-from uuid import uuid1, UUID
+from uuid import UUID, uuid1
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, engine

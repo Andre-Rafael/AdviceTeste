@@ -1,18 +1,18 @@
 from logging import info
+from os import getenv
 from time import sleep
 from typing import Generator
-
-from os import getenv
-from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 
 from dto.process_data import ProcessDataDTO
 from extractor.tjmg_data_extractor import TjmgDataExtractor
 from mixin.tribunal_page_mixin import TribunalPageMixin
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from twocaptcha import TwoCaptcha
+
 
 class TjmgPageObject(TribunalPageMixin):
     def __init__(self, webdriver: WebDriver):

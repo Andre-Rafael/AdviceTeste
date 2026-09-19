@@ -1,7 +1,7 @@
-from uuid import uuid1, UUID
+from uuid import UUID, uuid1
 
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, engine
 from .dados_processo import DadosProcesso

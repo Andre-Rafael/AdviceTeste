@@ -1,21 +1,19 @@
 from logging import info
 from uuid import UUID, uuid1
 
-from sqlalchemy import create_engine
-from dto.process_data import (
-    AtualizacaoDTO, ProcessDataDTO, 
-    PartesRepresentantesDTO, CapaProcessoDTO,
-    InformacoesAdicionaisDTO, AssuntoDTO
-)
+from dto.process_data import (AssuntoDTO, AtualizacaoDTO, CapaProcessoDTO,
+                              InformacoesAdicionaisDTO,
+                              PartesRepresentantesDTO, ProcessDataDTO)
 from mixin.save_data_mixin import SaveDataMixin
-from sqlalchemy.orm import sessionmaker
-
 from model.assunto import Assunto
 from model.atualizacoes import Atualizacoes
 from model.capa_processo import CapaProcesso
 from model.dados_processo import DadosProcesso
 from model.informacoes_adicionais import InformacaoAdicional
 from model.partes_representantes import PartesRepresentantes
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 
 class SaveDataSqlite(SaveDataMixin):
     def __init__(self):

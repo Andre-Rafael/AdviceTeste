@@ -1,11 +1,12 @@
 from decimal import Decimal
-from uuid import uuid1, UUID
+from uuid import UUID, uuid1
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .dados_processo import DadosProcesso
 from .base import Base, engine
+from .dados_processo import DadosProcesso
+
 
 class InformacaoAdicional(Base):
     __tablename__ = "INFORMACAO_ADICIONAL"

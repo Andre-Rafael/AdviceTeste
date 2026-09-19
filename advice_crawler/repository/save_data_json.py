@@ -1,8 +1,9 @@
-from dataclasses import asdict
 import json
+from dataclasses import asdict
 from typing import Any
 
 from mixin.save_data_mixin import SaveDataMixin
+
 
 class SaveDataJson(SaveDataMixin):
 

@@ -2,14 +2,13 @@ from datetime import datetime
 from decimal import Decimal
 from re import search
 from typing import Optional
-from unidecode import unidecode
 
 from bs4 import BeautifulSoup as bs
+from dto.process_data import (AssuntoDTO, AtualizacaoDTO, CapaProcessoDTO,
+                              InformacoesAdicionaisDTO,
+                              PartesRepresentantesDTO, ProcessDataDTO)
+from unidecode import unidecode
 
-from dto.process_data import (
-    PartesRepresentantesDTO, CapaProcessoDTO, AssuntoDTO,
-    AtualizacaoDTO, InformacoesAdicionaisDTO, ProcessDataDTO
-)
 
 class TjmgDataExtractor:
     def __init__(self):

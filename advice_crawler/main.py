@@ -2,15 +2,15 @@ from logging import info
 from pathlib import Path
 from typing import Any
 
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
-from repository.save_data_sqlite import SaveDataSqlite
-from repository.save_data_json import SaveDataJson
-from mixin.save_data_mixin import SaveDataMixin
-
-from page.tjmg_page_object import TjmgPageObject
 from dotenv import load_dotenv
+from mixin.save_data_mixin import SaveDataMixin
+from page.tjmg_page_object import TjmgPageObject
+from repository.save_data_json import SaveDataJson
+from repository.save_data_sqlite import SaveDataSqlite
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 class AdviceCrawler:
 

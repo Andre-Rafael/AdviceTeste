@@ -3,6 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Optional
 
+
 @dataclass
 class AssuntoDTO:
     codigo: str

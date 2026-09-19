@@ -3,6 +3,9 @@ from os import getenv
 from time import sleep
 from typing import Generator
 
+from selenium.common import NoSuchElementException
+
+from exception import DataNotFoundException
 from dto.process_data import ProcessDataDTO
 from extractor.tjmg_data_extractor import TjmgDataExtractor
 from mixin.tribunal_page_mixin import TribunalPageMixin
@@ -43,11 +46,15 @@ class TjmgPageObject(TribunalPageMixin):
 
     def get_result(self, client_name: str) -> Generator[ProcessDataDTO, None, None]:
         sleep(2)
-        result_table = WebDriverWait(self._webdriver, 20).until(
-            EC.presence_of_element_located((By.ID, 'divInfraAreaTabela'))
-        ).find_element(By.TAG_NAME, 'table')
+        try:
+            result_table = WebDriverWait(self._webdriver, 20).until(
+                EC.presence_of_element_located((By.ID, 'divInfraAreaTabela'))
+            ).find_element(By.TAG_NAME, 'table')
+        except NoSuchElementException:
+            info("Dados não encontrados")
+            raise DataNotFoundException()
         content_table: list[WebElement] = result_table.find_elements(By.TAG_NAME, 'tr')[1:]
-        links = [line.find_element(By.TAG_NAME, 'td').find_element(By.TAG_NAME, 'a').get_attribute('href') for line in content_table if client_name == line.find_elements(By.TAG_NAME, 'td')[0].text]
+        links = [line.find_element(By.TAG_NAME, 'td').find_element(By.TAG_NAME, 'a').get_attribute('href') for line in content_table if line.find_elements(By.TAG_NAME, 'td')[0].text.startswith(client_name)]
         info(f"{len(links)} resultados encontrado")
         for link in links:
             self.navigate(link)

@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
+from exception import DataNotFoundException
 from mixin.save_data_mixin import SaveDataMixin
 from page.tjmg_page_object import TjmgPageObject
 from repository.save_data_json import SaveDataJson
@@ -24,9 +25,12 @@ class AdviceCrawler:
             tjmg_page = TjmgPageObject(webdriver)
             tjmg_page.navigate(url)
             tjmg_page.search_client(nome_cliente)
-            for process_data in tjmg_page.get_result(nome_cliente):
-                self.save_data([process_data], SaveDataJson())
-                self.save_data(process_data, save_data_sqlite)
+            try:
+                for process_data in tjmg_page.get_result(nome_cliente):
+                    self.save_data([process_data], SaveDataJson())
+                    self.save_data(process_data, save_data_sqlite)
+            except DataNotFoundException:
+                ...
 
     def save_data(self, all_process: list[Any], save_data_mode: SaveDataMixin):
         try:
@@ -46,7 +50,7 @@ if __name__ == "__main__":
         "SERGIO FIRMINO DA SILVA",
         "HELENA FARIAS DE LIMA",
         "PAULO SALIM MALUF",
-        "PEDRO DE SÁ"
+        "PEDRO DE SA"
     ]
 
     [advice_crawler.run(name, url) for name in names_to_search]

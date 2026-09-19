@@ -1,6 +1,8 @@
 from abc import ABC
+from typing import Any
+
 
 class SaveDataMixin(ABC):
 
-    def save_data(self, data: list[DataclassInterface]): # type: ignore
+    def save(self, data: list[Any]): 
         ...

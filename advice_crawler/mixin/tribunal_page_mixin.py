@@ -2,6 +2,7 @@ from abc import ABC
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
+
 class TribunalPageMixin(ABC):
     def __init__(self, webdriver: WebDriver):
         self._webdriver: WebDriver = webdriver

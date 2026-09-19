@@ -1,0 +1,25 @@
+[project]
+name = "advice-test"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Andre-Rafael",email = "andrerafael2000@gmail.com"}
+]
+requires-python = ">=3.13"
+dependencies = [
+    "selenium (>=4.49.0,<5.0.0)",
+    "sqlalchemy (>=2.0.54,<3.0.0)",
+    "webdriver-manager (>=4.1.2,<5.0.0)",
+    "beautifulsoup4 (>=4.15.0,<5.0.0)"
+]
+
+[dependency-groups]
+dev = [
+    "requests (>=2.34.2,<3.0.0)",
+    "ruff (>=0.16.8,<0.17.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

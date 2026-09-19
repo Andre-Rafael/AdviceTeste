@@ -2,6 +2,7 @@ from logging import info
 from time import sleep
 from typing import Generator
 
+from os import getenv
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
@@ -11,11 +12,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from models.process_data import ProcessData
 from extractor.tjmg_data_extractor import TjmgDataExtractor
 from mixin.tribunal_page_mixin import TribunalPageMixin
+from twocaptcha import TwoCaptcha
 
 class TjmgPageObject(TribunalPageMixin):
     def __init__(self, webdriver: WebDriver):
         super().__init__(webdriver)
         self.tjmg_data_extractor = TjmgDataExtractor()
+        self.two_captcha = TwoCaptcha(apiKey=getenv("TOKEN_2CAPTCHA"))
+
 
     def navigate(self, url):
         return super().navigate(url)
@@ -25,7 +29,14 @@ class TjmgPageObject(TribunalPageMixin):
             By.ID, 'txtStrParte'
         )
         parts_name_field.send_keys(client_name)
-        input("Resolva recaptcha...")
+        self._webdriver.find_elements(By.TAG_NAME, 'img')
+        img_recaptcha_element: WebElement = self._webdriver.find_element(
+            By.XPATH, '//img[@title="Informe o código de confirmação"]'
+        )
+        result = self.two_captcha.normal(
+            img_recaptcha_element.get_attribute('src')
+        )
+        self._webdriver.find_element(By.ID, "txtInfraCaptcha").send_keys(result['code'])
         self._webdriver.find_element(By.ID, 'sbmNovo').click()
         info(f"Searching for {client_name}")
 
